@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="uk" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMarket - Магазин Електроніки</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                            950: '#2e1065',
+                        },
+                        yellow: {
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .aspect-hero {
+            aspect-ratio: 16 / 7;
+        }
+        @media (min-width: 768px) {
+            .aspect-hero {
+                aspect-ratio: 16 / 5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-purple-950/90 backdrop-blur-md border-b border-purple-100 dark:border-purple-900/50 shadow-sm transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 gap-4">
+                
+                <!-- Left: Logo -->
+                <div class="flex items-center gap-3 shrink-0">
+                    <a href="#" class="flex items-center gap-2 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-700 to-purple-500 flex items-center justify-center text-yellow-400 shadow-md group-hover:scale-105 transition-transform">
+                            <i class="fa-solid font-bold fa-bolt text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-purple-800 via-purple-600 to-yellow-500 dark:from-purple-300 dark:via-purple-400 dark:to-yellow-400 bg-clip-text text-transparent">
+                            Tech<span class="text-yellow-500 dark:text-yellow-400">Market</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Center: Search Bar -->
+                <div class="flex-1 max-w-2xl mx-2 hidden md:block">
+                    <div class="relative">
+                        <input type="text" id="search-input" 
+                            placeholder="Пошук смартфонів, ноутбуків, навушників..." 
+                            data-i18n-placeholder="searchPlaceholder"
+                            class="w-full pl-11 pr-10 py-2.5 rounded-full bg-slate-100 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-purple-300/60 transition-all">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-purple-600 dark:text-purple-400">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <button id="clear-search" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Controls -->
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <!-- Language Switcher -->
+                    <button id="lang-btn" class="px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-slate-100 dark:hover:bg-purple-900/50 text-xs font-bold text-purple-800 dark:text-yellow-400 transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-globe text-sm"></i>
+                        <span id="lang-label">UA</span>
+                    </button>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-btn" class="p-2 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-slate-100 dark:hover:bg-purple-900/50 text-purple-700 dark:text-yellow-400 transition-colors" title="Змінити тему">
+                        <i class="fa-solid fa-sun hidden dark:block text-lg"></i>
+                        <i class="fa-solid fa-moon block dark:hidden text-lg"></i>
+                    </button>
+
+                    <!-- Cart Icon with Badge -->
+                    <button id="cart-btn" class="relative p-2 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-slate-100 dark:hover:bg-purple-900/50 text-slate-700 dark:text-purple-200 transition-colors">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-yellow-400 text-purple-950 font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-sm">0</span>
+                    </button>
+
+                    <div class="h-6 w-px bg-slate-200 dark:bg-purple-800/80 mx-0.5 hidden sm:block"></div>
+
+                    <!-- User Avatar -->
+                    <div class="relative group hidden sm:block">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-r from-yellow-400 to-purple-600 p-0.5 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="w-full h-full object-cover rounded-full">
+                        </div>
+                    </div>
+
+                    <!-- Log Out Button -->
+                    <button id="logout-btn" class="px-3 py-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/60 dark:hover:bg-purple-800 text-purple-900 dark:text-purple-100 text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-from-bracket text-yellow-600 dark:text-yellow-400"></i>
+                        <span class="hidden sm:inline" data-i18n="logout">Вихід</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar -->
+            <div class="pb-3 md:hidden">
+                <div class="relative">
+                    <input type="text" id="mobile-search-input" 
+                        placeholder="Пошук товарів..." 
+                        data-i18n-placeholder="searchPlaceholderMobile"
+                        class="w-full pl-10 pr-4 py-2 rounded-lg bg-slate-100 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 text-slate-800 dark:text-slate-100">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-600 dark:text-purple-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SLIDE-OVER CART DRAWER MODAL -->
+    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
+        <div id="cart-drawer" class="fixed inset-y-0 right-0 max-w-full flex pl-10 transform translate-x-full transition-transform duration-300 ease-in-out">
+            <div class="w-screen max-w-md bg-white dark:bg-purple-950 border-l border-purple-200 dark:border-purple-900/60 shadow-2xl flex flex-col">
+                
+                <!-- Drawer Header -->
+                <div class="p-5 border-b border-slate-100 dark:border-purple-900/40 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-yellow-400 text-purple-950 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                        <h2 class="text-lg font-extrabold text-slate-900 dark:text-slate-100" data-i18n="cartTitle">
+                            Ваш кошик
+                        </h2>
+                    </div>
+                    <button id="close-cart-btn" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-lg transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items Container -->
+                <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-4 no-scrollbar">
+                    <!-- Dynamic Cart Content injected by JS -->
+                </div>
+
+                <!-- Drawer Footer & Summary -->
+                <div id="cart-footer" class="p-5 border-t border-slate-100 dark:border-purple-900/40 bg-slate-50 dark:bg-purple-900/20 space-y-4">
+                    <div class="space-y-1.5 text-xs">
+                        <div class="flex justify-between text-slate-500 dark:text-purple-300">
+                            <span data-i18n="cartSubtotal">Сума замовлення:</span>
+                            <span id="cart-subtotal" class="font-bold">0 ₴</span>
+                        </div>
+                        <div class="flex justify-between text-slate-500 dark:text-purple-300">
+                            <span data-i18n="cartDelivery">Доставка:</span>
+                            <span class="text-emerald-600 dark:text-emerald-400 font-semibold" data-i18n="freeDelivery">Безкоштовно</span>
+                        </div>
+                        <div class="flex justify-between text-base font-black text-slate-900 dark:text-slate-100 pt-2 border-t border-slate-200 dark:border-purple-800">
+                            <span data-i18n="cartTotal">Разом до сплати:</span>
+                            <span id="cart-total" class="text-purple-700 dark:text-yellow-400">0 ₴</span>
+                        </div>
+                    </div>
+
+                    <button id="checkout-btn" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-800 hover:to-purple-700 text-white font-extrabold text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 transition-transform active:scale-98">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span data-i18n="checkout">Оформити замовлення</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN BODY WRAPPER -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+            <!-- LEFT ASIDE (Categories & Ad Banner) -->
+            <aside class="lg:col-span-3 space-y-6">
+                
+                <!-- Category List Section -->
+                <div class="bg-white dark:bg-purple-950/40 rounded-2xl p-4 border border-slate-200 dark:border-purple-900/50 shadow-sm">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400 mb-3 px-2 flex items-center gap-2">
+                        <i class="fa-solid fa-list-ul"></i>
+                        <span data-i18n="categories">Категорії товарів</span>
+                    </h2>
+                    <nav class="space-y-1" id="category-list">
+                        <!-- Dynamic Categories loaded by JS -->
+                    </nav>
+                </div>
+
+                <!-- Ad/Promo Banner Section (Bottom Half of Sidebar) -->
+                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900 via-purple-800 to-purple-950 text-white p-5 shadow-lg border border-yellow-400/30">
+                    <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-yellow-400/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="relative z-10 space-y-3">
+                        <span class="inline-block px-2.5 py-0.5 rounded-full bg-yellow-400 text-purple-950 font-bold text-xs uppercase tracking-wide" data-i18n="adTag">
+                            Спецпропозиція
+                        </span>
+                        <h3 class="text-xl font-extrabold text-white leading-tight" data-i18n="adTitle">
+                            Знижка до -40% на ігрову периферію!
+                        </h3>
+                        <p class="text-xs text-purple-200 line-clamp-2" data-i18n="adDesc">
+                            Онови свій сетап професійними мишками, клавіатурами та гарнітурами.
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 text-xs font-bold text-yellow-400 hover:text-yellow-300 group pt-1">
+                            <span data-i18n="adCta">Детальніше</span>
+                            <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="lg:col-span-9 space-y-8">
+
+                <!-- 1. YouTube-style Top Hero Banner Carousel (16:9 style) -->
+                <section class="relative group rounded-2xl overflow-hidden shadow-xl border border-purple-200 dark:border-purple-800/50 bg-slate-900">
+                    <div id="hero-slider" class="relative w-full aspect-hero flex transition-transform duration-500 ease-out">
+                        <!-- Hero Slide 1 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" alt="Cyberpunk Setup" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-r from-purple-950/90 via-purple-900/60 to-transparent flex items-center p-6 sm:p-10">
+                                <div class="max-w-md space-y-3">
+                                    <span class="bg-yellow-400 text-purple-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">PlayStation 5 Pro</span>
+                                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Відчуй справжній Next-Gen</h2>
+                                    <p class="text-slate-200 text-xs sm:text-sm hidden sm:block">Новий рівень деталізації, 4K графіка та миттєве завантаження ваших улюблених ігор.</p>
+                                    <button class="mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
+                                        Купити зараз
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hero Slide 2 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80" alt="MacBook Pro" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-r from-purple-950/90 via-purple-900/60 to-transparent flex items-center p-6 sm:p-10">
+                                <div class="max-w-md space-y-3">
+                                    <span class="bg-purple-500 text-white font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Apple Ecosystem</span>
+                                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">MacBook Pro M3 Max</h2>
+                                    <p class="text-slate-200 text-xs sm:text-sm hidden sm:block">Неймовірна потужність для найскладніших завдань. До 22 годин автономної роботи.</p>
+                                    <button class="mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
+                                        Купити зараз
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hero Slide 3 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80" alt="Premium Audio" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-r from-purple-950/90 via-purple-900/60 to-transparent flex items-center p-6 sm:p-10">
+                                <div class="max-w-md space-y-3">
+                                    <span class="bg-yellow-400 text-purple-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Hi-Fi Звук</span>
+                                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Бездротова акустика</h2>
+                                    <p class="text-slate-200 text-xs sm:text-sm hidden sm:block">Занурся у світ кришталево чистого звуку з активним шумозаглушенням.</p>
+                                    <button class="mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
+                                        Купити зараз
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide Controls -->
+                    <button id="hero-prev" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-purple-950/70 hover:bg-purple-900 text-yellow-400 border border-yellow-400/30 flex items-center justify-center opacity-80 group-hover:opacity-100 transition-all backdrop-blur-sm">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button id="hero-next" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-purple-950/70 hover:bg-purple-900 text-yellow-400 border border-yellow-400/30 flex items-center justify-center opacity-80 group-hover:opacity-100 transition-all backdrop-blur-sm">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <!-- Indicators -->
+                    <div id="hero-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                        <!-- Dynamic dots -->
+                    </div>
+                </section>
+
+                <!-- 2. Discounted Products Section (Товари зі знижкою) -->
+                <section class="bg-white dark:bg-purple-950/20 rounded-2xl p-5 border border-purple-200 dark:border-purple-900/40 shadow-sm relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-yellow-400 text-purple-950 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-tags"></i>
+                            </div>
+                            <h2 class="text-xl font-extrabold text-slate-900 dark:text-slate-100" data-i18n="discountSection">
+                                Товари зі знижкою
+                            </h2>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button id="discount-prev" class="w-8 h-8 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                            </button>
+                            <button id="discount-next" class="w-8 h-8 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Discount Carousel Container -->
+                    <div id="discount-container" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar py-2">
+                        <!-- Dynamic Discount Cards -->
+                    </div>
+                </section>
+
+                <!-- 3. Popular Products Section with Navigation Arrows (Популярні товари з гортанням) -->
+                <section class="bg-white dark:bg-purple-950/20 rounded-2xl p-5 border border-purple-200 dark:border-purple-900/40 shadow-sm relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-purple-700 text-yellow-400 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-fire"></i>
+                            </div>
+                            <h2 class="text-xl font-extrabold text-slate-900 dark:text-slate-100" data-i18n="popularSection">
+                                Популярні товари
+                            </h2>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button id="popular-prev" class="w-8 h-8 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                            </button>
+                            <button id="popular-next" class="w-8 h-8 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Popular Carousel Container -->
+                    <div id="popular-container" class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar py-2">
+                        <!-- Dynamic Popular Cards -->
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto bg-white dark:bg-purple-950/80 border-t border-purple-100 dark:border-purple-900/60 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                
+                <!-- Support Service -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400" data-i18n="footerSupport">
+                        Служба підтримки
+                    </h3>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-purple-200">
+                        <li><a href="#" class="hover:text-purple-600 dark:hover:text-yellow-300 transition-colors" data-i18n="helpCenter">Центр допомоги</a></li>
+                        <li><a href="#" class="hover:text-purple-600 dark:hover:text-yellow-300 transition-colors" data-i18n="returns">Повернення та гарантія</a></li>
+                        <li><a href="#" class="hover:text-purple-600 dark:hover:text-yellow-300 transition-colors" data-i18n="delivery">Доставка та оплата</a></li>
+                        <li><a href="#" class="hover:text-purple-600 dark:hover:text-yellow-300 transition-colors" data-i18n="faq">Часті запитання (FAQ)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Schedule -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400" data-i18n="footerSchedule">
+                        Графік роботи
+                    </h3>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-purple-200">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-regular fa-clock text-yellow-500"></i>
+                            <span data-i18n="weekdays">Пн-Пт: 09:00 - 20:00</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-regular fa-clock text-yellow-500"></i>
+                            <span data-i18n="weekends">Сб-Нд: 10:00 - 18:00</span>
+                        </li>
+                        <li class="text-emerald-600 dark:text-emerald-400 font-semibold pt-1" data-i18n="onlineOrders">
+                            Онлайн замовлення 24/7
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contacts -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400" data-i18n="footerContacts">
+                        Контактна інформація
+                    </h3>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-purple-200">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-purple-600 dark:text-yellow-400"></i>
+                            <span>0 800 330 777</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-purple-600 dark:text-yellow-400"></i>
+                            <span>support@techmarket.ua</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-purple-600 dark:text-yellow-400"></i>
+                            <span data-i18n="address">м. Київ, вул. Хрещатик, 1</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Socials -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400" data-i18n="footerSocials">
+                        Соціальні мережі
+                    </h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/60 hover:bg-yellow-400 hover:text-purple-950 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/60 hover:bg-yellow-400 hover:text-purple-950 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-telegram text-lg"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/60 hover:bg-yellow-400 hover:text-purple-950 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-youtube text-lg"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/60 hover:bg-yellow-400 hover:text-purple-950 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-facebook text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Privacy & Terms -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400" data-i18n="footerLegal">
+                        Правова інформація
+                    </h3>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-purple-200">
+                        <li><a href="#" class="hover:text-purple-600 dark:hover:text-yellow-300 transition-colors" data-i18n="privacyPolicy">Політика конфіденційності</a></li>
+                        <li><a href="#" class="hover:text-purple-600 dark:hover:text-yellow-300 transition-colors" data-i18n="terms">Угода користувача</a></li>
+                        <li><a href="#" class="hover:text-purple-600 dark:hover:text-yellow-300 transition-colors" data-i18n="cookies">Політика використання файлів cookie</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="mt-8 pt-6 border-t border-slate-200 dark:border-purple-900/40 text-center text-xs text-slate-500 dark:text-purple-300">
+                &copy; 2026 TechMarket. <span data-i18n="rights">Усі права захищено.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        /* --- State & Translations --- */
+        let currentLang = 'ua';
+        let selectedCategory = 'all';
+        let cart = []; // Reactive Cart Array { id, titleUa, titleEng, price, image, quantity }
+
+        const i18n = {
+            ua: {
+                searchPlaceholder: "Пошук смартфонів, ноутбуків, навушників...",
+                searchPlaceholderMobile: "Пошук товарів...",
+                logout: "Вихід",
+                categories: "Категорії товарів",
+                adTag: "Спецпропозиція",
+                adTitle: "Знижка до -40% на ігрову периферію!",
+                adDesc: "Онови свій сетап професійними мишками, клавіатурами та гарнітурами.",
+                adCta: "Детальніше",
+                buyNow: "Купити зараз",
+                discountSection: "Товари зі знижкою",
+                popularSection: "Популярні товари",
+                cartTitle: "Ваш кошик",
+                cartEmpty: "Ваш кошик порожній",
+                cartEmptyDesc: "Знайдіть потрібний товар у нашому каталозі та додайте його сюди",
+                cartSubtotal: "Сума замовлення:",
+                cartDelivery: "Доставка:",
+                freeDelivery: "Безкоштовно",
+                cartTotal: "Разом до сплати:",
+                checkout: "Оформити замовлення",
+                footerSupport: "Служба підтримки",
+                helpCenter: "Центр допомоги",
+                returns: "Повернення та гарантія",
+                delivery: "Доставка та оплата",
+                faq: "Часті запитання (FAQ)",
+                footerSchedule: "Графік роботи",
+                weekdays: "Пн-Пт: 09:00 - 20:00",
+                weekends: "Сб-Нд: 10:00 - 18:00",
+                onlineOrders: "Онлайн замовлення 24/7",
+                footerContacts: "Контактна інформація",
+                address: "м. Київ, вул. Хрещатик, 1",
+                footerSocials: "Соціальні мережі",
+                footerLegal: "Правова інформація",
+                privacyPolicy: "Політика конфіденційності",
+                terms: "Угода користувача",
+                cookies: "Політика файлів cookie",
+                rights: "Усі права захищено.",
+                addedToCart: "Товар додано в кошик!",
+                orderSuccess: "Дякуємо! Ваше замовлення успішно прийнято в обробку!"
+            },
+            eng: {
+                searchPlaceholder: "Search smartphones, laptops, headphones...",
+                searchPlaceholderMobile: "Search products...",
+                logout: "Log Out",
+                categories: "Product Categories",
+                adTag: "Special Offer",
+                adTitle: "Up to -40% OFF Gaming Accessories!",
+                adDesc: "Upgrade your setup with pro gaming mice, keyboards and headsets.",
+                adCta: "Learn More",
+                buyNow: "Buy Now",
+                discountSection: "Discounted Products",
+                popularSection: "Popular Products",
+                cartTitle: "Your Cart",
+                cartEmpty: "Your cart is empty",
+                cartEmptyDesc: "Explore our catalog and find something tech-awesome!",
+                cartSubtotal: "Subtotal:",
+                cartDelivery: "Delivery:",
+                freeDelivery: "Free",
+                cartTotal: "Total Amount:",
+                checkout: "Proceed to Checkout",
+                footerSupport: "Customer Support",
+                helpCenter: "Help Center",
+                returns: "Returns & Warranty",
+                delivery: "Shipping & Payment",
+                faq: "FAQ",
+                footerSchedule: "Working Hours",
+                weekdays: "Mon-Fri: 09:00 - 20:00",
+                weekends: "Sat-Sun: 10:00 - 18:00",
+                onlineOrders: "Online Orders 24/7",
+                footerContacts: "Contact Information",
+                address: "Kyiv, Khreshchatyk St, 1",
+                footerSocials: "Social Networks",
+                footerLegal: "Legal Information",
+                privacyPolicy: "Privacy Policy",
+                terms: "Terms of Service",
+                cookies: "Cookie Policy",
+                rights: "All rights reserved.",
+                addedToCart: "Item added to cart!",
+                orderSuccess: "Thank you! Your order has been placed successfully!"
+            }
+        };
+
+        const categoriesData = [
+            { id: 'all', icon: 'fa-cubes', nameUa: 'Усі товари', nameEng: 'All Products' },
+            { id: 'smartphones', icon: 'fa-mobile-screen-button', nameUa: 'Смартфони', nameEng: 'Smartphones' },
+            { id: 'laptops', icon: 'fa-laptop', nameUa: 'Ноутбуки', nameEng: 'Laptops' },
+            { id: 'audio', icon: 'fa-headphones', nameUa: 'Аудіо & Навушники', nameEng: 'Audio & Headphones' },
+            { id: 'tv', icon: 'fa-tv', nameUa: 'ТВ & Відео', nameEng: 'TV & Video' },
+            { id: 'accessories', icon: 'fa-keyboard', nameUa: 'Аксесуари', nameEng: 'Accessories' },
+            { id: 'smarthome', icon: 'fa-house-signal', nameUa: 'Розумний дім', nameEng: 'Smart Home' },
+            { id: 'gaming', icon: 'fa-gamepad', nameUa: 'Геймінг', nameEng: 'Gaming' },
+            { id: 'wearables', icon: 'fa-stopwatch', nameUa: 'Смарт-годинники', nameEng: 'Wearables' }
+        ];
+
+        /* Product Catalog */
+        const discountProducts = [
+            {
+                id: 1,
+                category: 'smartphones',
+                badge: '-25%',
+                badgeColor: 'bg-red-500',
+                image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Смартфон TechPhone Pro Max 256GB Platinum Black',
+                titleEng: 'TechPhone Pro Max 256GB Platinum Black',
+                descUa: 'Дисплей 120 Гц AMOLED, фірмовий процесор 8 ядер, потрійна камера 108 Мп.',
+                descEng: '120Hz AMOLED display, Octa-Core chip, 108MP triple camera setup.',
+                rating: 5,
+                reviews: 128,
+                oldPrice: 39999,
+                price: 29999
+            },
+            {
+                id: 2,
+                category: 'laptops',
+                badge: '-15%',
+                badgeColor: 'bg-red-500',
+                image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Ігровий ноутбук UltraBlade 16 Gaming RTX 4070',
+                titleEng: 'UltraBlade 16 Gaming Laptop RTX 4070',
+                descUa: 'Intel Core i7 13700H, 32GB RAM, 1TB SSD, 240Hz QHD екран.',
+                descEng: 'Intel Core i7 13700H, 32GB RAM, 1TB SSD, 240Hz QHD Screen.',
+                rating: 4,
+                reviews: 84,
+                oldPrice: 74999,
+                price: 63749
+            },
+            {
+                id: 3,
+                category: 'audio',
+                badge: '-30%',
+                badgeColor: 'bg-red-500',
+                image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Бездротові навушники NoiseCancel Studio Wireless Pro',
+                titleEng: 'NoiseCancel Studio Wireless Pro Headphones',
+                descUa: 'Активне шумозаглушення ANC, до 40 годин автономності, Hi-Res аудіо.',
+                descEng: 'Active Noise Cancelling, up to 40h battery, Hi-Res sound certification.',
+                rating: 5,
+                reviews: 210,
+                oldPrice: 8999,
+                price: 6299
+            },
+            {
+                id: 4,
+                category: 'wearables',
+                badge: '-20%',
+                badgeColor: 'bg-red-500',
+                image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Смарт-годинник TechWatch Active Titanium Edition',
+                titleEng: 'TechWatch Active Titanium Edition Smartwatch',
+                descUa: 'Екран Sapphire Glass, пульсоксиметр, GPS, захист 5 ATM.',
+                descEng: 'Sapphire Glass screen, SpO2 sensor, standalone GPS, 5 ATM water resistant.',
+                rating: 4,
+                reviews: 45,
+                oldPrice: 11999,
+                price: 9599
+            }
+        ];
+
+        const popularProducts = [
+            {
+                id: 5,
+                category: 'gaming',
+                badge: 'TOP',
+                badgeColor: 'bg-purple-600 text-white',
+                image: 'https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Геймпад Wireless Game Controller Pro Series',
+                titleEng: 'Wireless Game Controller Pro Series',
+                descUa: 'Тактильна віддача, налаштовувані тригери, сумісність з PC та консолями.',
+                descEng: 'Haptic feedback, custom triggers, cross-platform compatibility.',
+                rating: 5,
+                reviews: 312,
+                price: 2799
+            },
+            {
+                id: 6,
+                category: 'tv',
+                badge: 'HOT',
+                badgeColor: 'bg-yellow-500 text-purple-950',
+                image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Телевізор CinemaVision 55" OLED 4K Smart TV',
+                titleEng: 'CinemaVision 55" OLED 4K Smart TV',
+                descUa: '120 Гц, Dolby Vision, HDR10+, фірмова ОС зі швидким доступом.',
+                descEng: '120Hz, Dolby Vision, HDR10+, ultra-fast smart OS.',
+                rating: 5,
+                reviews: 98,
+                price: 45999
+            },
+            {
+                id: 7,
+                category: 'accessories',
+                badge: 'POPULAR',
+                badgeColor: 'bg-purple-600 text-white',
+                image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Механічна клавіатура RGB Mechanical Pro Switch',
+                titleEng: 'RGB Mechanical Keyboard Pro Switch',
+                descUa: 'Перемикачі Hot-Swap, PBT кейкапи, регульоване RGB підсвічування.',
+                descEng: 'Hot-Swappable switches, PBT keycaps, customizable RGB backlight.',
+                rating: 4,
+                reviews: 176,
+                price: 3499
+            },
+            {
+                id: 8,
+                category: 'smarthome',
+                badge: 'SMART',
+                badgeColor: 'bg-emerald-600 text-white',
+                image: 'https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Смарт-колонка VoiceHome Assistant Max',
+                titleEng: 'VoiceHome Assistant Max Smart Speaker',
+                descUa: 'Голосове керування, інтеграція з розумним домом, об’ємне звучання.',
+                descEng: 'Voice recognition, seamless smart home hub, 360 spatial audio.',
+                rating: 4,
+                reviews: 89,
+                price: 4199
+            },
+            {
+                id: 9,
+                category: 'accessories',
+                badge: 'NEW',
+                badgeColor: 'bg-blue-600 text-white',
+                image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Бездротова миша Precision Master Ergonomic',
+                titleEng: 'Precision Master Ergonomic Wireless Mouse',
+                descUa: 'Оптичний сенсор 26000 DPI, підключення Bluetooth / 2.4GHz.',
+                descEng: '26000 DPI Optical Sensor, Bluetooth / 2.4GHz dual mode.',
+                rating: 5,
+                reviews: 64,
+                price: 2299
+            },
+            {
+                id: 10,
+                category: 'smartphones',
+                badge: 'BESTSELLER',
+                badgeColor: 'bg-yellow-500 text-purple-950',
+                image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=500&q=80',
+                titleUa: 'Смартфон LitePhone 128GB Mint Green Edition',
+                titleEng: 'LitePhone 128GB Mint Green Edition',
+                descUa: 'Легкий корпус, автономність до 2 днів, швидка зарядка 67 Вт.',
+                descEng: 'Ultralight body, up to 2 days battery life, 67W fast charging.',
+                rating: 4,
+                reviews: 240,
+                price: 14999
+            }
+        ];
+
+        // Generate Star Rating Icons
+        function renderStars(rating) {
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    starsHtml += '<i class="fa-solid fa-star text-yellow-400 text-xs"></i>';
+                } else {
+                    starsHtml += '<i class="fa-regular fa-star text-slate-300 dark:text-purple-800 text-xs"></i>';
+                }
+            }
+            return starsHtml;
+        }
+
+        // Generate Product Card HTML
+        function renderProductCard(product) {
+            const title = currentLang === 'ua' ? product.titleUa : product.titleEng;
+            const desc = currentLang === 'ua' ? product.descUa : product.descEng;
+            
+            return `
+                <div class="w-64 flex-shrink-0 flex flex-col bg-white dark:bg-purple-950/40 rounded-xl border border-slate-200 dark:border-purple-900/50 overflow-hidden hover:border-purple-400 dark:hover:border-yellow-400/60 transition-all duration-300 shadow-sm hover:shadow-md group">
+                    <!-- Top Image Half -->
+                    <div class="relative h-44 w-full bg-slate-100 dark:bg-purple-900/20 overflow-hidden">
+                        <img src="${product.image}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        ${product.badge ? `
+                            <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider shadow-sm ${product.badgeColor}">
+                                ${product.badge}
+                            </span>
+                        ` : ''}
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-3.5 flex flex-col flex-1 justify-between gap-2">
+                        <div>
+                            <!-- Title -->
+                            <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 line-clamp-1 group-hover:text-purple-600 dark:group-hover:text-yellow-400 transition-colors" title="${title}">
+                                ${title}
+                            </h3>
+                            <!-- Short Spec / Description -->
+                            <p class="text-xs text-slate-500 dark:text-purple-300/80 mt-1 line-clamp-2 leading-relaxed" title="${desc}">
+                                ${desc}
+                            </p>
+                        </div>
+
+                        <div>
+                            <!-- Rating & Reviews -->
+                            <div class="flex items-center gap-1.5 my-2">
+                                <div class="flex items-center gap-0.5">
+                                    ${renderStars(product.rating)}
+                                </div>
+                                <span class="text-[11px] text-slate-400 dark:text-purple-300/60 font-medium">(${product.reviews})</span>
+                            </div>
+
+                            <!-- Bottom Price & Cart Action -->
+                            <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-purple-900/30">
+                                <div class="flex flex-col">
+                                    ${product.oldPrice ? `
+                                        <span class="text-[11px] text-slate-400 dark:text-purple-400 line-through leading-none mb-0.5">
+                                            ${product.oldPrice.toLocaleString()} ₴
+                                        </span>
+                                    ` : ''}
+                                    <span class="text-base font-black text-purple-900 dark:text-yellow-400 leading-none">
+                                        ${product.price.toLocaleString()} ₴
+                                    </span>
+                                </div>
+                                
+                                <button onclick="addToCart(${product.id})" class="w-9 h-9 rounded-xl bg-purple-700 hover:bg-purple-800 dark:bg-yellow-400 dark:hover:bg-yellow-300 text-white dark:text-purple-950 flex items-center justify-center transition-all shadow-sm active:scale-95" title="Додати в кошик">
+                                    <i class="fa-solid fa-cart-plus text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Categories Sidebar
+        function renderCategories() {
+            const listContainer = document.getElementById('category-list');
+            listContainer.innerHTML = categoriesData.map(cat => {
+                const name = currentLang === 'ua' ? cat.nameUa : cat.nameEng;
+                const active = selectedCategory === cat.id;
+                return `
+                    <button onclick="filterCategory('${cat.id}')" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                        active 
+                        ? 'bg-purple-700 text-white dark:bg-yellow-400 dark:text-purple-950 shadow-sm' 
+                        : 'text-slate-600 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/40'
+                    }">
+                        <i class="fa-solid ${cat.icon} w-4 text-center ${active ? 'text-white dark:text-purple-950' : 'text-purple-600 dark:text-yellow-400'}"></i>
+                        <span class="truncate">${name}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // Render Product Lists
+        function renderProducts(searchQuery = '') {
+            const discountContainer = document.getElementById('discount-container');
+            const popularContainer = document.getElementById('popular-container');
+
+            const query = searchQuery.toLowerCase().trim();
+
+            const filteredDiscounts = discountProducts.filter(p => {
+                const title = (currentLang === 'ua' ? p.titleUa : p.titleEng).toLowerCase();
+                const matchesCat = selectedCategory === 'all' || p.category === selectedCategory;
+                const matchesSearch = !query || title.includes(query);
+                return matchesCat && matchesSearch;
+            });
+
+            const filteredPopular = popularProducts.filter(p => {
+                const title = (currentLang === 'ua' ? p.titleUa : p.titleEng).toLowerCase();
+                const matchesCat = selectedCategory === 'all' || p.category === selectedCategory;
+                const matchesSearch = !query || title.includes(query);
+                return matchesCat && matchesSearch;
+            });
+
+            // Discount Section
+            if (filteredDiscounts.length === 0) {
+                discountContainer.innerHTML = `<div class="p-4 text-xs text-slate-400 italic">Не знайдено товарів у цій категорії</div>`;
+            } else {
+                discountContainer.innerHTML = filteredDiscounts.map(p => renderProductCard(p)).join('');
+            }
+
+            // Popular Section
+            if (filteredPopular.length === 0) {
+                popularContainer.innerHTML = `<div class="p-4 text-xs text-slate-400 italic">Не знайдено товарів у цій категорії</div>`;
+            } else {
+                popularContainer.innerHTML = filteredPopular.map(p => renderProductCard(p)).join('');
+            }
+        }
+
+        /* --- Cart Drawer Functionality --- */
+        const allProductsList = [...discountProducts, ...popularProducts];
+
+        function addToCart(productId) {
+            const product = allProductsList.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    id: product.id,
+                    titleUa: product.titleUa,
+                    titleEng: product.titleEng,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            const title = currentLang === 'ua' ? product.titleUa : product.titleEng;
+            showToast(`${i18n[currentLang].addedToCart}<br><strong>${title}</strong>`);
+        }
+
+        function updateCartQuantity(productId, delta) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            // Update Badge Count
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-badge').textContent = totalCount;
+
+            // Update Cart Items HTML
+            const itemsContainer = document.getElementById('cart-items-list');
+            const cartFooter = document.getElementById('cart-footer');
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-yellow-400 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-cart-arrow-down"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <h3 class="font-extrabold text-base text-slate-800 dark:text-slate-100" data-i18n="cartEmpty">
+                                ${i18n[currentLang].cartEmpty}
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70" data-i18n="cartEmptyDesc">
+                                ${i18n[currentLang].cartEmptyDesc}
+                            </p>
+                        </div>
+                    </div>
+                `;
+                cartFooter.classList.add('hidden');
+            } else {
+                cartFooter.classList.remove('hidden');
+                itemsContainer.innerHTML = cart.map(item => {
+                    const title = currentLang === 'ua' ? item.titleUa : item.titleEng;
+                    return `
+                        <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800/60">
+                            <img src="${item.image}" alt="${title}" class="w-16 h-16 object-cover rounded-lg bg-white shrink-0">
+                            
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-xs text-slate-800 dark:text-slate-100 line-clamp-1" title="${title}">
+                                    ${title}
+                                </h4>
+                                <span class="text-xs font-black text-purple-700 dark:text-yellow-400 mt-0.5 block">
+                                    ${item.price.toLocaleString()} ₴
+                                </span>
+                                
+                                <div class="flex items-center gap-2 mt-2">
+                                    <button onclick="updateCartQuantity(${item.id}, -1)" class="w-6 h-6 rounded-md bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-xs font-bold text-slate-800 dark:text-slate-100 w-4 text-center">${item.quantity}</span>
+                                    <button onclick="updateCartQuantity(${item.id}, 1)" class="w-6 h-6 rounded-md bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button onclick="removeFromCart(${item.id})" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Видалити">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Calculate Subtotal and Total
+            const totalSum = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cart-subtotal').textContent = `${totalSum.toLocaleString()} ₴`;
+            document.getElementById('cart-total').textContent = `${totalSum.toLocaleString()} ₴`;
+        }
+
+        // Cart Drawer Modal Toggle
+        const cartDrawerBackdrop = document.getElementById('cart-drawer-backdrop');
+        const cartDrawer = document.getElementById('cart-drawer');
+
+        function openCart() {
+            cartDrawerBackdrop.classList.remove('hidden');
+            setTimeout(() => {
+                cartDrawerBackdrop.classList.remove('opacity-0');
+                cartDrawer.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeCart() {
+            cartDrawer.classList.add('translate-x-full');
+            cartDrawerBackdrop.classList.add('opacity-0');
+            setTimeout(() => {
+                cartDrawerBackdrop.classList.add('hidden');
+            }, 300);
+        }
+
+        document.getElementById('cart-btn').onclick = openCart;
+        document.getElementById('close-cart-btn').onclick = closeCart;
+        cartDrawerBackdrop.onclick = (e) => {
+            if (e.target === cartDrawerBackdrop) closeCart();
+        };
+
+        // Checkout Button Click Event
+        document.getElementById('checkout-btn').onclick = () => {
+            if (cart.length === 0) return;
+            cart = [];
+            updateCartUI();
+            closeCart();
+            showToast(i18n[currentLang].orderSuccess);
+        };
+
+        function filterCategory(catId) {
+            selectedCategory = catId;
+            renderCategories();
+            renderProducts(document.getElementById('search-input').value);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-900/90 dark:bg-purple-900/95 text-white border border-yellow-400/40 px-4 py-3 rounded-xl shadow-xl text-xs flex items-center gap-3 backdrop-blur-md transition-all transform translate-y-2 opacity-0 pointer-events-auto';
+            toast.innerHTML = `
+                <div class="w-7 h-7 rounded-lg bg-yellow-400 text-purple-950 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-check font-bold text-sm"></i>
+                </div>
+                <div>${message}</div>
+            `;
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('lang-label').textContent = lang.toUpperCase();
+
+            // Translate elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) {
+                    el.textContent = i18n[lang][key];
+                }
+            });
+
+            // Translate placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (i18n[lang][key]) {
+                    el.placeholder = i18n[lang][key];
+                }
+            });
+
+            renderCategories();
+            renderProducts();
+            updateCartUI();
+        }
+
+        /* --- Hero Slider Controls --- */
+        let heroIndex = 0;
+        const heroSlider = document.getElementById('hero-slider');
+        const heroSlidesCount = 3;
+        const heroDotsContainer = document.getElementById('hero-dots');
+
+        function initHeroDots() {
+            heroDotsContainer.innerHTML = '';
+            for (let i = 0; i < heroSlidesCount; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === heroIndex ? 'bg-yellow-400 w-6' : 'bg-white/50'}`;
+                dot.onclick = () => setHeroSlide(i);
+                heroDotsContainer.appendChild(dot);
+            }
+        }
+
+        function setHeroSlide(index) {
+            heroIndex = index;
+            if (heroIndex >= heroSlidesCount) heroIndex = 0;
+            if (heroIndex < 0) heroIndex = heroSlidesCount - 1;
+            heroSlider.style.transform = `translateX(-${heroIndex * 100}%)`;
+            initHeroDots();
+        }
+
+        document.getElementById('hero-next').onclick = () => setHeroSlide(heroIndex + 1);
+        document.getElementById('hero-prev').onclick = () => setHeroSlide(heroIndex - 1);
+
+        let heroInterval = setInterval(() => setHeroSlide(heroIndex + 1), 5000);
+        document.getElementById('hero-slider').parentElement.addEventListener('mouseenter', () => clearInterval(heroInterval));
+        document.getElementById('hero-slider').parentElement.addEventListener('mouseleave', () => {
+            heroInterval = setInterval(() => setHeroSlide(heroIndex + 1), 5000);
+        });
+
+        /* --- Horizontal Carousels Scroll Controls --- */
+        // Discount Carousel Navigation
+        const discountContainer = document.getElementById('discount-container');
+        document.getElementById('discount-next').onclick = () => {
+            discountContainer.scrollBy({ left: 280, behavior: 'smooth' });
+        };
+        document.getElementById('discount-prev').onclick = () => {
+            discountContainer.scrollBy({ left: -280, behavior: 'smooth' });
+        };
+
+        // Popular Products Carousel Navigation
+        const popularContainer = document.getElementById('popular-container');
+        document.getElementById('popular-next').onclick = () => {
+            popularContainer.scrollBy({ left: 280, behavior: 'smooth' });
+        };
+        document.getElementById('popular-prev').onclick = () => {
+            popularContainer.scrollBy({ left: -280, behavior: 'smooth' });
+        };
+
+        /* --- Global Controls & Search Listeners --- */
+        document.getElementById('theme-btn').onclick = () => {
+            document.documentElement.classList.toggle('dark');
+        };
+
+        document.getElementById('lang-btn').onclick = () => {
+            const nextLang = currentLang === 'ua' ? 'eng' : 'ua';
+            updateLanguage(nextLang);
+        };
+
+        const searchInput = document.getElementById('search-input');
+        const mobileSearchInput = document.getElementById('mobile-search-input');
+        const clearBtn = document.getElementById('clear-search');
+
+        function handleSearch(e) {
+            const val = e.target.value;
+            if (val) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            renderProducts(val);
+        }
+
+        searchInput.addEventListener('input', handleSearch);
+        mobileSearchInput.addEventListener('input', handleSearch);
+
+        clearBtn.onclick = () => {
+            searchInput.value = '';
+            mobileSearchInput.value = '';
+            clearBtn.classList.add('hidden');
+            renderProducts('');
+        };
+
+        document.getElementById('logout-btn').onclick = () => {
+            showToast(currentLang === 'ua' ? 'Ви успішно вийшли з облікового запису' : 'You have logged out successfully');
+        };
+
+        window.onload = function() {
+            initHeroDots();
+            renderCategories();
+            renderProducts();
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
