@@ -159,49 +159,57 @@
         </div>
     </header>
 
-    <!-- SLIDE-OVER CART DRAWER MODAL -->
-    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
-        <div id="cart-drawer" class="fixed inset-y-0 right-0 max-w-full flex pl-10 transform translate-x-full transition-transform duration-300 ease-in-out">
-            <div class="w-screen max-w-md bg-white dark:bg-purple-950 border-l border-purple-200 dark:border-purple-900/60 shadow-2xl flex flex-col">
-                
-                <!-- Drawer Header -->
-                <div class="p-5 border-b border-slate-100 dark:border-purple-900/40 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg bg-yellow-400 text-purple-950 flex items-center justify-center font-bold">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </div>
-                        <h2 class="text-lg font-extrabold text-slate-900 dark:text-slate-100" data-i18n="cartTitle">
+    <!-- CENTERED CART MODAL DIALOG -->
+    <div id="cart-modal-backdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div id="cart-modal" class="bg-white dark:bg-purple-950 border border-purple-200 dark:border-purple-900/80 rounded-3xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col transform scale-95 transition-transform duration-300 overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-100 dark:border-purple-900/50 flex items-center justify-between bg-slate-50/50 dark:bg-purple-900/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-yellow-400 text-purple-950 flex items-center justify-center font-black text-lg shadow-sm">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-extrabold text-slate-900 dark:text-slate-100" data-i18n="cartTitle">
                             Ваш кошик
                         </h2>
+                        <p class="text-xs text-slate-400 dark:text-purple-300/70" data-i18n="cartSubtitle">
+                            Перевірте вибрані товари перед оформленням
+                        </p>
                     </div>
-                    <button id="close-cart-btn" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-lg transition-colors">
-                        <i class="fa-solid fa-xmark"></i>
+                </div>
+                <button id="close-modal-btn" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-purple-900/50 dark:hover:bg-purple-800 text-slate-400 hover:text-slate-700 dark:hover:text-slate-100 flex items-center justify-center text-lg transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Cart Items Container -->
+            <div id="cart-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar min-h-[160px]">
+                <!-- Dynamic Cart Content injected by JS -->
+            </div>
+
+            <!-- Modal Footer & Summary -->
+            <div id="cart-footer" class="p-6 border-t border-slate-100 dark:border-purple-900/50 bg-slate-50 dark:bg-purple-900/20 space-y-4">
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-slate-500 dark:text-purple-300">
+                        <span data-i18n="cartSubtotal">Сума замовлення:</span>
+                        <span id="cart-subtotal" class="font-bold">0 ₴</span>
+                    </div>
+                    <div class="flex justify-between text-slate-500 dark:text-purple-300">
+                        <span data-i18n="cartDelivery">Доставка:</span>
+                        <span class="text-emerald-600 dark:text-emerald-400 font-bold" data-i18n="freeDelivery">Безкоштовно</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-black text-slate-900 dark:text-slate-100 pt-3 border-t border-slate-200 dark:border-purple-800">
+                        <span data-i18n="cartTotal">Разом до сплати:</span>
+                        <span id="cart-total" class="text-purple-700 dark:text-yellow-400 text-xl">0 ₴</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                    <button id="continue-shopping-btn" class="w-full sm:w-1/2 py-3 px-4 rounded-xl border border-slate-200 dark:border-purple-800 hover:bg-slate-100 dark:hover:bg-purple-900/50 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm transition-colors" data-i18n="continueShopping">
+                        Продовжити покупки
                     </button>
-                </div>
-
-                <!-- Cart Items Container -->
-                <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-4 no-scrollbar">
-                    <!-- Dynamic Cart Content injected by JS -->
-                </div>
-
-                <!-- Drawer Footer & Summary -->
-                <div id="cart-footer" class="p-5 border-t border-slate-100 dark:border-purple-900/40 bg-slate-50 dark:bg-purple-900/20 space-y-4">
-                    <div class="space-y-1.5 text-xs">
-                        <div class="flex justify-between text-slate-500 dark:text-purple-300">
-                            <span data-i18n="cartSubtotal">Сума замовлення:</span>
-                            <span id="cart-subtotal" class="font-bold">0 ₴</span>
-                        </div>
-                        <div class="flex justify-between text-slate-500 dark:text-purple-300">
-                            <span data-i18n="cartDelivery">Доставка:</span>
-                            <span class="text-emerald-600 dark:text-emerald-400 font-semibold" data-i18n="freeDelivery">Безкоштовно</span>
-                        </div>
-                        <div class="flex justify-between text-base font-black text-slate-900 dark:text-slate-100 pt-2 border-t border-slate-200 dark:border-purple-800">
-                            <span data-i18n="cartTotal">Разом до сплати:</span>
-                            <span id="cart-total" class="text-purple-700 dark:text-yellow-400">0 ₴</span>
-                        </div>
-                    </div>
-
-                    <button id="checkout-btn" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-800 hover:to-purple-700 text-white font-extrabold text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 transition-transform active:scale-98">
+                    <button id="checkout-btn" class="w-full sm:w-1/2 py-3 px-4 rounded-xl bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-800 hover:to-purple-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 transition-transform active:scale-98">
                         <i class="fa-solid fa-credit-card"></i>
                         <span data-i18n="checkout">Оформити замовлення</span>
                     </button>
@@ -343,7 +351,7 @@
                     </div>
                 </section>
 
-                <!-- 3. Popular Products Section with Navigation Arrows (Популярні товари з гортанням) -->
+                <!-- 3. Popular Products Section with Navigation Arrows -->
                 <section class="bg-white dark:bg-purple-950/20 rounded-2xl p-5 border border-purple-200 dark:border-purple-900/40 shadow-sm relative">
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2">
@@ -495,12 +503,14 @@
                 discountSection: "Товари зі знижкою",
                 popularSection: "Популярні товари",
                 cartTitle: "Ваш кошик",
+                cartSubtitle: "Перевірте вибрані товари перед оформленням",
                 cartEmpty: "Ваш кошик порожній",
                 cartEmptyDesc: "Знайдіть потрібний товар у нашому каталозі та додайте його сюди",
                 cartSubtotal: "Сума замовлення:",
                 cartDelivery: "Доставка:",
                 freeDelivery: "Безкоштовно",
                 cartTotal: "Разом до сплати:",
+                continueShopping: "Продовжити покупки",
                 checkout: "Оформити замовлення",
                 footerSupport: "Служба підтримки",
                 helpCenter: "Центр допомоги",
@@ -535,12 +545,14 @@
                 discountSection: "Discounted Products",
                 popularSection: "Popular Products",
                 cartTitle: "Your Cart",
+                cartSubtitle: "Review your selected items before checking out",
                 cartEmpty: "Your cart is empty",
                 cartEmptyDesc: "Explore our catalog and find something tech-awesome!",
                 cartSubtotal: "Subtotal:",
                 cartDelivery: "Delivery:",
                 freeDelivery: "Free",
                 cartTotal: "Total Amount:",
+                continueShopping: "Continue Shopping",
                 checkout: "Proceed to Checkout",
                 footerSupport: "Customer Support",
                 helpCenter: "Help Center",
@@ -857,7 +869,7 @@
             }
         }
 
-        /* --- Cart Drawer Functionality --- */
+        /* --- Cart Modal Dialog Functionality --- */
         const allProductsList = [...discountProducts, ...popularProducts];
 
         function addToCart(productId) {
@@ -905,13 +917,13 @@
             const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             document.getElementById('cart-badge').textContent = totalCount;
 
-            // Update Cart Items HTML
+            // Update Cart Items HTML inside Modal
             const itemsContainer = document.getElementById('cart-items-list');
             const cartFooter = document.getElementById('cart-footer');
 
             if (cart.length === 0) {
                 itemsContainer.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
+                    <div class="py-10 flex flex-col items-center justify-center text-center space-y-3">
                         <div class="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-yellow-400 flex items-center justify-center text-2xl">
                             <i class="fa-solid fa-cart-arrow-down"></i>
                         </div>
@@ -931,29 +943,29 @@
                 itemsContainer.innerHTML = cart.map(item => {
                     const title = currentLang === 'ua' ? item.titleUa : item.titleEng;
                     return `
-                        <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800/60">
-                            <img src="${item.image}" alt="${title}" class="w-16 h-16 object-cover rounded-lg bg-white shrink-0">
+                        <div class="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800/60">
+                            <img src="${item.image}" alt="${title}" class="w-16 h-16 object-cover rounded-xl bg-white shrink-0">
                             
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-bold text-xs text-slate-800 dark:text-slate-100 line-clamp-1" title="${title}">
+                                <h4 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100 line-clamp-1" title="${title}">
                                     ${title}
                                 </h4>
-                                <span class="text-xs font-black text-purple-700 dark:text-yellow-400 mt-0.5 block">
+                                <span class="text-sm font-black text-purple-700 dark:text-yellow-400 mt-0.5 block">
                                     ${item.price.toLocaleString()} ₴
                                 </span>
-                                
-                                <div class="flex items-center gap-2 mt-2">
-                                    <button onclick="updateCartQuantity(${item.id}, -1)" class="w-6 h-6 rounded-md bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span class="text-xs font-bold text-slate-800 dark:text-slate-100 w-4 text-center">${item.quantity}</span>
-                                    <button onclick="updateCartQuantity(${item.id}, 1)" class="w-6 h-6 rounded-md bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
                             </div>
 
-                            <button onclick="removeFromCart(${item.id})" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Видалити">
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100 shadow-sm">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                                <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 w-5 text-center">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100 shadow-sm">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+
+                            <button onclick="removeFromCart(${item.id})" class="p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0" title="Видалити">
                                 <i class="fa-solid fa-trash-can text-sm"></i>
                             </button>
                         </div>
@@ -967,30 +979,34 @@
             document.getElementById('cart-total').textContent = `${totalSum.toLocaleString()} ₴`;
         }
 
-        // Cart Drawer Modal Toggle
-        const cartDrawerBackdrop = document.getElementById('cart-drawer-backdrop');
-        const cartDrawer = document.getElementById('cart-drawer');
+        // Center Modal Dialog Controls
+        const cartModalBackdrop = document.getElementById('cart-modal-backdrop');
+        const cartModal = document.getElementById('cart-modal');
 
         function openCart() {
-            cartDrawerBackdrop.classList.remove('hidden');
+            cartModalBackdrop.classList.remove('hidden');
             setTimeout(() => {
-                cartDrawerBackdrop.classList.remove('opacity-0');
-                cartDrawer.classList.remove('translate-x-full');
+                cartModalBackdrop.classList.remove('opacity-0');
+                cartModal.classList.remove('scale-95');
+                cartModal.classList.add('scale-100');
             }, 10);
         }
 
         function closeCart() {
-            cartDrawer.classList.add('translate-x-full');
-            cartDrawerBackdrop.classList.add('opacity-0');
+            cartModal.classList.remove('scale-100');
+            cartModal.classList.add('scale-95');
+            cartModalBackdrop.classList.add('opacity-0');
             setTimeout(() => {
-                cartDrawerBackdrop.classList.add('hidden');
+                cartModalBackdrop.classList.add('hidden');
             }, 300);
         }
 
         document.getElementById('cart-btn').onclick = openCart;
-        document.getElementById('close-cart-btn').onclick = closeCart;
-        cartDrawerBackdrop.onclick = (e) => {
-            if (e.target === cartDrawerBackdrop) closeCart();
+        document.getElementById('close-modal-btn').onclick = closeCart;
+        document.getElementById('continue-shopping-btn').onclick = closeCart;
+
+        cartModalBackdrop.onclick = (e) => {
+            if (e.target === cartModalBackdrop) closeCart();
         };
 
         // Checkout Button Click Event
@@ -1090,7 +1106,6 @@
         });
 
         /* --- Horizontal Carousels Scroll Controls --- */
-        // Discount Carousel Navigation
         const discountContainer = document.getElementById('discount-container');
         document.getElementById('discount-next').onclick = () => {
             discountContainer.scrollBy({ left: 280, behavior: 'smooth' });
@@ -1099,7 +1114,6 @@
             discountContainer.scrollBy({ left: -280, behavior: 'smooth' });
         };
 
-        // Popular Products Carousel Navigation
         const popularContainer = document.getElementById('popular-container');
         document.getElementById('popular-next').onclick = () => {
             popularContainer.scrollBy({ left: 280, behavior: 'smooth' });
