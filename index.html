@@ -159,12 +159,12 @@
         </div>
     </header>
 
-    <!-- CENTERED CART MODAL DIALOG -->
+    <!-- CENTERED TWO-COLUMN CART MODAL DIALOG -->
     <div id="cart-modal-backdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
-        <div id="cart-modal" class="bg-white dark:bg-purple-950 border border-purple-200 dark:border-purple-900/80 rounded-3xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col transform scale-95 transition-transform duration-300 overflow-hidden">
+        <div id="cart-modal" class="bg-white dark:bg-purple-950 border border-purple-200 dark:border-purple-900/80 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform scale-95 transition-transform duration-300 overflow-hidden">
             
             <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-slate-100 dark:border-purple-900/50 flex items-center justify-between bg-slate-50/50 dark:bg-purple-900/20">
+            <div class="px-6 py-4 border-b border-slate-100 dark:border-purple-900/50 flex items-center justify-between bg-slate-50/50 dark:bg-purple-900/20 shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-2xl bg-yellow-400 text-purple-950 flex items-center justify-center font-black text-lg shadow-sm">
                         <i class="fa-solid fa-cart-shopping"></i>
@@ -174,7 +174,7 @@
                             Ваш кошик
                         </h2>
                         <p class="text-xs text-slate-400 dark:text-purple-300/70" data-i18n="cartSubtitle">
-                            Перевірте вибрані товари перед оформленням
+                            Оформлення замовлення
                         </p>
                     </div>
                 </div>
@@ -183,37 +183,69 @@
                 </button>
             </div>
 
-            <!-- Modal Cart Items Container -->
-            <div id="cart-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar min-h-[160px]">
-                <!-- Dynamic Cart Content injected by JS -->
-            </div>
+            <!-- Modal Content (Two Columns Layout) -->
+            <div id="cart-modal-body" class="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-12 min-h-0">
+                
+                <!-- LEFT COLUMN: Detailed Item List with Icons & Controls -->
+                <div class="md:col-span-7 p-6 border-b md:border-b-0 md:border-r border-slate-100 dark:border-purple-900/50 space-y-4 overflow-y-auto no-scrollbar">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-purple-800 dark:text-yellow-400 flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-list text-sm"></i>
+                        <span data-i18n="itemsInCart">Товари в кошику</span>
+                    </h3>
 
-            <!-- Modal Footer & Summary -->
-            <div id="cart-footer" class="p-6 border-t border-slate-100 dark:border-purple-900/50 bg-slate-50 dark:bg-purple-900/20 space-y-4">
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between text-slate-500 dark:text-purple-300">
-                        <span data-i18n="cartSubtotal">Сума замовлення:</span>
-                        <span id="cart-subtotal" class="font-bold">0 ₴</span>
-                    </div>
-                    <div class="flex justify-between text-slate-500 dark:text-purple-300">
-                        <span data-i18n="cartDelivery">Доставка:</span>
-                        <span class="text-emerald-600 dark:text-emerald-400 font-bold" data-i18n="freeDelivery">Безкоштовно</span>
-                    </div>
-                    <div class="flex justify-between text-lg font-black text-slate-900 dark:text-slate-100 pt-3 border-t border-slate-200 dark:border-purple-800">
-                        <span data-i18n="cartTotal">Разом до сплати:</span>
-                        <span id="cart-total" class="text-purple-700 dark:text-yellow-400 text-xl">0 ₴</span>
+                    <div id="cart-items-list" class="space-y-3">
+                        <!-- Dynamic Cart List rendered by JS -->
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-center gap-3 pt-2">
-                    <button id="continue-shopping-btn" class="w-full sm:w-1/2 py-3 px-4 rounded-xl border border-slate-200 dark:border-purple-800 hover:bg-slate-100 dark:hover:bg-purple-900/50 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm transition-colors" data-i18n="continueShopping">
-                        Продовжити покупки
-                    </button>
-                    <button id="checkout-btn" class="w-full sm:w-1/2 py-3 px-4 rounded-xl bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-800 hover:to-purple-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 transition-transform active:scale-98">
-                        <i class="fa-solid fa-credit-card"></i>
-                        <span data-i18n="checkout">Оформити замовлення</span>
-                    </button>
+                <!-- RIGHT COLUMN: Text-Only Receipt ("ЧЕК") & Pay Button at Bottom -->
+                <div class="md:col-span-5 p-6 bg-slate-50/60 dark:bg-purple-900/20 flex flex-col justify-between">
+                    <div>
+                        <!-- Receipt Title Header -->
+                        <div class="flex items-center justify-between pb-3 border-b border-dashed border-slate-300 dark:border-purple-800/80 mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-receipt text-purple-600 dark:text-yellow-400"></i>
+                                <span class="font-extrabold text-sm uppercase tracking-widest text-slate-800 dark:text-slate-100" data-i18n="receiptHeader">
+                                    ЧЕК ЗАМОВЛЕННЯ
+                                </span>
+                            </div>
+                            <span class="text-[10px] font-mono text-slate-400 dark:text-purple-300/60">#TM-84920</span>
+                        </div>
+
+                        <!-- Pure Text Itemized Receipt Summary -->
+                        <div id="receipt-text-list" class="space-y-2 text-xs font-mono text-slate-700 dark:text-purple-200 border-b border-dashed border-slate-300 dark:border-purple-800/80 pb-4 max-h-48 overflow-y-auto no-scrollbar">
+                            <!-- Dynamic Pure Text List rendered by JS -->
+                        </div>
+
+                        <!-- Totals Breakdown -->
+                        <div class="py-4 space-y-2 text-xs">
+                            <div class="flex justify-between text-slate-500 dark:text-purple-300">
+                                <span data-i18n="cartSubtotal">Сума замовлення:</span>
+                                <span id="cart-subtotal" class="font-bold">0 ₴</span>
+                            </div>
+                            <div class="flex justify-between text-slate-500 dark:text-purple-300">
+                                <span data-i18n="cartDelivery">Доставка:</span>
+                                <span class="text-emerald-600 dark:text-emerald-400 font-bold" data-i18n="freeDelivery">Безкоштовно</span>
+                            </div>
+                            <div class="flex justify-between text-base font-black text-slate-900 dark:text-slate-100 pt-3 border-t border-slate-200 dark:border-purple-800">
+                                <span data-i18n="cartTotal">Разом до сплати:</span>
+                                <span id="cart-total" class="text-purple-700 dark:text-yellow-400 text-lg">0 ₴</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Action Buttons in Right Column -->
+                    <div class="pt-4 space-y-2 border-t border-slate-200 dark:border-purple-800/60">
+                        <button id="checkout-btn" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-800 hover:to-purple-700 dark:from-yellow-400 dark:to-yellow-500 dark:hover:from-yellow-300 dark:hover:to-yellow-400 text-white dark:text-purple-950 font-black text-sm shadow-lg shadow-purple-600/20 dark:shadow-yellow-400/20 flex items-center justify-center gap-2 transition-transform active:scale-98">
+                            <i class="fa-solid fa-credit-card"></i>
+                            <span data-i18n="payNow">Оплатити</span>
+                        </button>
+                        <button id="continue-shopping-btn" class="w-full py-2.5 px-4 rounded-xl border border-slate-200 dark:border-purple-800 hover:bg-slate-100 dark:hover:bg-purple-900/50 text-slate-600 dark:text-purple-300 font-bold text-xs transition-colors" data-i18n="continueShopping">
+                            Продовжити покупки
+                        </button>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -503,15 +535,17 @@
                 discountSection: "Товари зі знижкою",
                 popularSection: "Популярні товари",
                 cartTitle: "Ваш кошик",
-                cartSubtitle: "Перевірте вибрані товари перед оформленням",
+                cartSubtitle: "Оформлення замовлення",
+                itemsInCart: "Товари в кошику",
+                receiptHeader: "ЧЕК ЗАМОВЛЕННЯ",
                 cartEmpty: "Ваш кошик порожній",
-                cartEmptyDesc: "Знайдіть потрібний товар у нашому каталозі та додайте його сюди",
+                cartEmptyDesc: "Знайдіть потрібний товар у каталозі та додайте його",
                 cartSubtotal: "Сума замовлення:",
                 cartDelivery: "Доставка:",
                 freeDelivery: "Безкоштовно",
                 cartTotal: "Разом до сплати:",
                 continueShopping: "Продовжити покупки",
-                checkout: "Оформити замовлення",
+                payNow: "Оплатити",
                 footerSupport: "Служба підтримки",
                 helpCenter: "Центр допомоги",
                 returns: "Повернення та гарантія",
@@ -530,7 +564,7 @@
                 cookies: "Політика файлів cookie",
                 rights: "Усі права захищено.",
                 addedToCart: "Товар додано в кошик!",
-                orderSuccess: "Дякуємо! Ваше замовлення успішно прийнято в обробку!"
+                orderSuccess: "Дякуємо! Ваша оплата пройшла успішно!"
             },
             eng: {
                 searchPlaceholder: "Search smartphones, laptops, headphones...",
@@ -545,7 +579,9 @@
                 discountSection: "Discounted Products",
                 popularSection: "Popular Products",
                 cartTitle: "Your Cart",
-                cartSubtitle: "Review your selected items before checking out",
+                cartSubtitle: "Checkout & Summary",
+                itemsInCart: "Items in Cart",
+                receiptHeader: "RECEIPT SUMMARY",
                 cartEmpty: "Your cart is empty",
                 cartEmptyDesc: "Explore our catalog and find something tech-awesome!",
                 cartSubtotal: "Subtotal:",
@@ -553,7 +589,7 @@
                 freeDelivery: "Free",
                 cartTotal: "Total Amount:",
                 continueShopping: "Continue Shopping",
-                checkout: "Proceed to Checkout",
+                payNow: "Checkout & Pay",
                 footerSupport: "Customer Support",
                 helpCenter: "Help Center",
                 returns: "Returns & Warranty",
@@ -572,7 +608,7 @@
                 cookies: "Cookie Policy",
                 rights: "All rights reserved.",
                 addedToCart: "Item added to cart!",
-                orderSuccess: "Thank you! Your order has been placed successfully!"
+                orderSuccess: "Thank you! Your payment was successful!"
             }
         };
 
@@ -869,7 +905,7 @@
             }
         }
 
-        /* --- Cart Modal Dialog Functionality --- */
+        /* --- Two-Column Cart Logic & Receipt Dynamic Rendering --- */
         const allProductsList = [...discountProducts, ...popularProducts];
 
         function addToCart(productId) {
@@ -917,57 +953,78 @@
             const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             document.getElementById('cart-badge').textContent = totalCount;
 
-            // Update Cart Items HTML inside Modal
+            // Elements
             const itemsContainer = document.getElementById('cart-items-list');
-            const cartFooter = document.getElementById('cart-footer');
+            const receiptContainer = document.getElementById('receipt-text-list');
 
             if (cart.length === 0) {
+                // Empty state inside Left Column
                 itemsContainer.innerHTML = `
-                    <div class="py-10 flex flex-col items-center justify-center text-center space-y-3">
+                    <div class="py-12 flex flex-col items-center justify-center text-center space-y-3">
                         <div class="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-yellow-400 flex items-center justify-center text-2xl">
                             <i class="fa-solid fa-cart-arrow-down"></i>
                         </div>
                         <div class="space-y-1">
-                            <h3 class="font-extrabold text-base text-slate-800 dark:text-slate-100" data-i18n="cartEmpty">
+                            <h3 class="font-extrabold text-sm text-slate-800 dark:text-slate-100" data-i18n="cartEmpty">
                                 ${i18n[currentLang].cartEmpty}
                             </h3>
-                            <p class="text-xs text-slate-500 dark:text-purple-300/70" data-i18n="cartEmptyDesc">
+                            <p class="text-xs text-slate-400 dark:text-purple-300/70" data-i18n="cartEmptyDesc">
                                 ${i18n[currentLang].cartEmptyDesc}
                             </p>
                         </div>
                     </div>
                 `;
-                cartFooter.classList.add('hidden');
+
+                // Empty state inside Right Column Receipt
+                receiptContainer.innerHTML = `
+                    <div class="py-4 text-center italic text-slate-400 dark:text-purple-300/50">
+                        — Кошик порожній —
+                    </div>
+                `;
             } else {
-                cartFooter.classList.remove('hidden');
+                // Render LEFT COLUMN: Rich Cards with Images & Controls
                 itemsContainer.innerHTML = cart.map(item => {
                     const title = currentLang === 'ua' ? item.titleUa : item.titleEng;
                     return `
-                        <div class="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800/60">
-                            <img src="${item.image}" alt="${title}" class="w-16 h-16 object-cover rounded-xl bg-white shrink-0">
+                        <div class="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800/60">
+                            <img src="${item.image}" alt="${title}" class="w-14 h-14 object-cover rounded-xl bg-white shrink-0 border border-slate-100 dark:border-purple-800">
                             
                             <div class="flex-1 min-w-0">
                                 <h4 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100 line-clamp-1" title="${title}">
                                     ${title}
                                 </h4>
-                                <span class="text-sm font-black text-purple-700 dark:text-yellow-400 mt-0.5 block">
+                                <span class="text-xs font-extrabold text-purple-700 dark:text-yellow-400 mt-0.5 block">
                                     ${item.price.toLocaleString()} ₴
                                 </span>
                             </div>
 
-                            <div class="flex items-center gap-2">
-                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100 shadow-sm">
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-[10px] text-slate-700 dark:text-slate-100 shadow-sm">
                                     <i class="fa-solid fa-minus"></i>
                                 </button>
-                                <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 w-5 text-center">${item.quantity}</span>
-                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-xs text-slate-700 dark:text-slate-100 shadow-sm">
+                                <span class="text-xs font-black text-slate-800 dark:text-slate-100 w-4 text-center">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-[10px] text-slate-700 dark:text-slate-100 shadow-sm">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
 
-                            <button onclick="removeFromCart(${item.id})" class="p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0" title="Видалити">
-                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            <button onclick="removeFromCart(${item.id})" class="p-1.5 text-slate-400 hover:text-red-500 transition-colors shrink-0" title="Видалити">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
+                        </div>
+                    `;
+                }).join('');
+
+                // Render RIGHT COLUMN: Text-Only Itemized Receipt ("ЧЕК")
+                receiptContainer.innerHTML = cart.map((item, index) => {
+                    const title = currentLang === 'ua' ? item.titleUa : item.titleEng;
+                    const totalItemPrice = item.price * item.quantity;
+                    return `
+                        <div class="flex justify-between items-start gap-2">
+                            <span class="truncate flex-1">
+                                ${index + 1}. ${title} <span class="text-purple-600 dark:text-yellow-400 font-bold">x${item.quantity}</span>
+                            </span>
+                            <span class="font-bold shrink-0">${totalItemPrice.toLocaleString()} ₴</span>
                         </div>
                     `;
                 }).join('');
