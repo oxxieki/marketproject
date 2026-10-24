@@ -79,7 +79,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20 gap-4">
                 
-                <!-- Left: Logo -->
+                <!-- Left: Logo & Page 2 Link Button -->
                 <div class="flex items-center gap-3 shrink-0">
                     <a href="#" class="flex items-center gap-2 group">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-700 to-purple-500 flex items-center justify-center text-yellow-400 shadow-md group-hover:scale-105 transition-transform">
@@ -88,6 +88,12 @@
                         <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-purple-800 via-purple-600 to-yellow-500 dark:from-purple-300 dark:via-purple-400 dark:to-yellow-400 bg-clip-text text-transparent">
                             Tech<span class="text-yellow-500 dark:text-yellow-400">Market</span>
                         </span>
+                    </a>
+
+                    <!-- Кнопка переход на page2.html -->
+                    <a href="page2.html" class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/60 dark:hover:bg-purple-800 text-purple-900 dark:text-yellow-400 text-xs font-bold transition-colors shadow-sm">
+                        <i class="fa-solid fa-table-cells"></i>
+                        <span>Каталог (Page 2)</span>
                     </a>
                 </div>
 
@@ -144,9 +150,9 @@
                 </div>
             </div>
 
-            <!-- Mobile Search Bar -->
-            <div class="pb-3 md:hidden">
-                <div class="relative">
+            <!-- Mobile Search Bar & Page 2 link -->
+            <div class="pb-3 flex gap-2 md:hidden">
+                <div class="relative flex-1">
                     <input type="text" id="mobile-search-input" 
                         placeholder="Пошук товарів..." 
                         data-i18n-placeholder="searchPlaceholderMobile"
@@ -155,6 +161,9 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </div>
+                <a href="page2.html" class="px-3 py-2 rounded-lg bg-purple-700 text-yellow-400 text-xs font-bold flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-table-cells"></i>
+                </a>
             </div>
         </div>
     </header>
@@ -259,10 +268,15 @@
                 
                 <!-- Category List Section -->
                 <div class="bg-white dark:bg-purple-950/40 rounded-2xl p-4 border border-slate-200 dark:border-purple-900/50 shadow-sm">
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400 mb-3 px-2 flex items-center gap-2">
-                        <i class="fa-solid fa-list-ul"></i>
-                        <span data-i18n="categories">Категорії товарів</span>
-                    </h2>
+                    <div class="flex items-center justify-between mb-3 px-2">
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-purple-900 dark:text-yellow-400 flex items-center gap-2">
+                            <i class="fa-solid fa-list-ul"></i>
+                            <span data-i18n="categories">Категорії товарів</span>
+                        </h2>
+                        <a href="page2.html" class="text-[11px] font-bold text-purple-600 dark:text-yellow-400 hover:underline">
+                            Усі <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </a>
+                    </div>
                     <nav class="space-y-1" id="category-list">
                         <!-- Dynamic Categories loaded by JS -->
                     </nav>
@@ -281,7 +295,7 @@
                         <p class="text-xs text-purple-200 line-clamp-2" data-i18n="adDesc">
                             Онови свій сетап професійними мишками, клавіатурами та гарнітурами.
                         </p>
-                        <a href="#" class="inline-flex items-center gap-2 text-xs font-bold text-yellow-400 hover:text-yellow-300 group pt-1">
+                        <a href="page2.html" class="inline-flex items-center gap-2 text-xs font-bold text-yellow-400 hover:text-yellow-300 group pt-1">
                             <span data-i18n="adCta">Детальніше</span>
                             <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
                         </a>
@@ -304,9 +318,9 @@
                                     <span class="bg-yellow-400 text-purple-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">PlayStation 5 Pro</span>
                                     <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Відчуй справжній Next-Gen</h2>
                                     <p class="text-slate-200 text-xs sm:text-sm hidden sm:block">Новий рівень деталізації, 4K графіка та миттєве завантаження ваших улюблених ігор.</p>
-                                    <button class="mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
+                                    <a href="page2.html" class="inline-block mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
                                         Купити зараз
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -319,9 +333,9 @@
                                     <span class="bg-purple-500 text-white font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Apple Ecosystem</span>
                                     <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">MacBook Pro M3 Max</h2>
                                     <p class="text-slate-200 text-xs sm:text-sm hidden sm:block">Неймовірна потужність для найскладніших завдань. До 22 годин автономної роботи.</p>
-                                    <button class="mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
+                                    <a href="page2.html" class="inline-block mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
                                         Купити зараз
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -334,9 +348,9 @@
                                     <span class="bg-yellow-400 text-purple-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Hi-Fi Звук</span>
                                     <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Бездротова акустика</h2>
                                     <p class="text-slate-200 text-xs sm:text-sm hidden sm:block">Занурся у світ кришталево чистого звуку з активним шумозаглушенням.</p>
-                                    <button class="mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
+                                    <a href="page2.html" class="inline-block mt-2 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg transition-transform active:scale-95" data-i18n="buyNow">
                                         Купити зараз
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -368,6 +382,7 @@
                             </h2>
                         </div>
                         <div class="flex items-center gap-2">
+                            <a href="page2.html" class="text-xs font-bold text-purple-600 dark:text-yellow-400 hover:underline mr-2 hidden sm:inline">Дивитись усі</a>
                             <button id="discount-prev" class="w-8 h-8 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-colors">
                                 <i class="fa-solid fa-chevron-left text-xs"></i>
                             </button>
@@ -395,6 +410,7 @@
                             </h2>
                         </div>
                         <div class="flex items-center gap-2">
+                            <a href="page2.html" class="text-xs font-bold text-purple-600 dark:text-yellow-400 hover:underline mr-2 hidden sm:inline">Дивитись усі</a>
                             <button id="popular-prev" class="w-8 h-8 rounded-lg border border-slate-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-yellow-400 flex items-center justify-center transition-colors">
                                 <i class="fa-solid fa-chevron-left text-xs"></i>
                             </button>
@@ -516,10 +532,9 @@
 
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
-        /* --- State & Translations --- */
         let currentLang = 'ua';
         let selectedCategory = 'all';
-        let cart = []; // Reactive Cart Array { id, titleUa, titleEng, price, image, quantity }
+        let cart = [];
 
         const i18n = {
             ua: {
@@ -624,7 +639,6 @@
             { id: 'wearables', icon: 'fa-stopwatch', nameUa: 'Смарт-годинники', nameEng: 'Wearables' }
         ];
 
-        /* Product Catalog */
         const discountProducts = [
             {
                 id: 1,
@@ -775,7 +789,6 @@
             }
         ];
 
-        // Generate Star Rating Icons
         function renderStars(rating) {
             let starsHtml = '';
             for (let i = 1; i <= 5; i++) {
@@ -788,14 +801,12 @@
             return starsHtml;
         }
 
-        // Generate Product Card HTML
         function renderProductCard(product) {
             const title = currentLang === 'ua' ? product.titleUa : product.titleEng;
             const desc = currentLang === 'ua' ? product.descUa : product.descEng;
             
             return `
                 <div class="w-64 flex-shrink-0 flex flex-col bg-white dark:bg-purple-950/40 rounded-xl border border-slate-200 dark:border-purple-900/50 overflow-hidden hover:border-purple-400 dark:hover:border-yellow-400/60 transition-all duration-300 shadow-sm hover:shadow-md group">
-                    <!-- Top Image Half -->
                     <div class="relative h-44 w-full bg-slate-100 dark:bg-purple-900/20 overflow-hidden">
                         <img src="${product.image}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         ${product.badge ? `
@@ -805,21 +816,17 @@
                         ` : ''}
                     </div>
 
-                    <!-- Card Body -->
                     <div class="p-3.5 flex flex-col flex-1 justify-between gap-2">
                         <div>
-                            <!-- Title -->
                             <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 line-clamp-1 group-hover:text-purple-600 dark:group-hover:text-yellow-400 transition-colors" title="${title}">
                                 ${title}
                             </h3>
-                            <!-- Short Spec / Description -->
                             <p class="text-xs text-slate-500 dark:text-purple-300/80 mt-1 line-clamp-2 leading-relaxed" title="${desc}">
                                 ${desc}
                             </p>
                         </div>
 
                         <div>
-                            <!-- Rating & Reviews -->
                             <div class="flex items-center gap-1.5 my-2">
                                 <div class="flex items-center gap-0.5">
                                     ${renderStars(product.rating)}
@@ -827,7 +834,6 @@
                                 <span class="text-[11px] text-slate-400 dark:text-purple-300/60 font-medium">(${product.reviews})</span>
                             </div>
 
-                            <!-- Bottom Price & Cart Action -->
                             <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-purple-900/30">
                                 <div class="flex flex-col">
                                     ${product.oldPrice ? `
@@ -850,7 +856,6 @@
             `;
         }
 
-        // Render Categories Sidebar
         function renderCategories() {
             const listContainer = document.getElementById('category-list');
             listContainer.innerHTML = categoriesData.map(cat => {
@@ -869,11 +874,9 @@
             }).join('');
         }
 
-        // Render Product Lists
         function renderProducts(searchQuery = '') {
             const discountContainer = document.getElementById('discount-container');
             const popularContainer = document.getElementById('popular-container');
-
             const query = searchQuery.toLowerCase().trim();
 
             const filteredDiscounts = discountProducts.filter(p => {
@@ -890,14 +893,12 @@
                 return matchesCat && matchesSearch;
             });
 
-            // Discount Section
             if (filteredDiscounts.length === 0) {
                 discountContainer.innerHTML = `<div class="p-4 text-xs text-slate-400 italic">Не знайдено товарів у цій категорії</div>`;
             } else {
                 discountContainer.innerHTML = filteredDiscounts.map(p => renderProductCard(p)).join('');
             }
 
-            // Popular Section
             if (filteredPopular.length === 0) {
                 popularContainer.innerHTML = `<div class="p-4 text-xs text-slate-400 italic">Не знайдено товарів у цій категорії</div>`;
             } else {
@@ -905,7 +906,6 @@
             }
         }
 
-        /* --- Two-Column Cart Logic & Receipt Dynamic Rendering --- */
         const allProductsList = [...discountProducts, ...popularProducts];
 
         function addToCart(productId) {
@@ -939,7 +939,6 @@
             if (item.quantity <= 0) {
                 cart = cart.filter(i => i.id !== productId);
             }
-
             updateCartUI();
         }
 
@@ -949,94 +948,62 @@
         }
 
         function updateCartUI() {
-            // Update Badge Count
             const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             document.getElementById('cart-badge').textContent = totalCount;
 
-            // Elements
             const itemsContainer = document.getElementById('cart-items-list');
             const receiptContainer = document.getElementById('receipt-text-list');
 
             if (cart.length === 0) {
-                // Empty state inside Left Column
                 itemsContainer.innerHTML = `
                     <div class="py-12 flex flex-col items-center justify-center text-center space-y-3">
                         <div class="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-yellow-400 flex items-center justify-center text-2xl">
                             <i class="fa-solid fa-cart-arrow-down"></i>
                         </div>
                         <div class="space-y-1">
-                            <h3 class="font-extrabold text-sm text-slate-800 dark:text-slate-100" data-i18n="cartEmpty">
-                                ${i18n[currentLang].cartEmpty}
-                            </h3>
-                            <p class="text-xs text-slate-400 dark:text-purple-300/70" data-i18n="cartEmptyDesc">
-                                ${i18n[currentLang].cartEmptyDesc}
-                            </p>
+                            <h3 class="font-extrabold text-sm text-slate-800 dark:text-slate-100" data-i18n="cartEmpty">${i18n[currentLang].cartEmpty}</h3>
+                            <p class="text-xs text-slate-400 dark:text-purple-300/70" data-i18n="cartEmptyDesc">${i18n[currentLang].cartEmptyDesc}</p>
                         </div>
                     </div>
                 `;
-
-                // Empty state inside Right Column Receipt
-                receiptContainer.innerHTML = `
-                    <div class="py-4 text-center italic text-slate-400 dark:text-purple-300/50">
-                        — Кошик порожній —
-                    </div>
-                `;
+                receiptContainer.innerHTML = `<div class="py-4 text-center italic text-slate-400 dark:text-purple-300/50">— Кошик порожній —</div>`;
             } else {
-                // Render LEFT COLUMN: Rich Cards with Images & Controls
                 itemsContainer.innerHTML = cart.map(item => {
                     const title = currentLang === 'ua' ? item.titleUa : item.titleEng;
                     return `
                         <div class="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-purple-900/30 border border-slate-200 dark:border-purple-800/60">
                             <img src="${item.image}" alt="${title}" class="w-14 h-14 object-cover rounded-xl bg-white shrink-0 border border-slate-100 dark:border-purple-800">
-                            
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100 line-clamp-1" title="${title}">
-                                    ${title}
-                                </h4>
-                                <span class="text-xs font-extrabold text-purple-700 dark:text-yellow-400 mt-0.5 block">
-                                    ${item.price.toLocaleString()} ₴
-                                </span>
+                                <h4 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100 line-clamp-1" title="${title}">${title}</h4>
+                                <span class="text-xs font-extrabold text-purple-700 dark:text-yellow-400 mt-0.5 block">${item.price.toLocaleString()} ₴</span>
                             </div>
-
                             <div class="flex items-center gap-1.5 shrink-0">
-                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-[10px] text-slate-700 dark:text-slate-100 shadow-sm">
-                                    <i class="fa-solid fa-minus"></i>
-                                </button>
+                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-[10px] text-slate-700 dark:text-slate-100 shadow-sm"><i class="fa-solid fa-minus"></i></button>
                                 <span class="text-xs font-black text-slate-800 dark:text-slate-100 w-4 text-center">${item.quantity}</span>
-                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-[10px] text-slate-700 dark:text-slate-100 shadow-sm">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
+                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white dark:bg-purple-800 border border-slate-200 dark:border-purple-700 hover:bg-slate-100 flex items-center justify-center text-[10px] text-slate-700 dark:text-slate-100 shadow-sm"><i class="fa-solid fa-plus"></i></button>
                             </div>
-
-                            <button onclick="removeFromCart(${item.id})" class="p-1.5 text-slate-400 hover:text-red-500 transition-colors shrink-0" title="Видалити">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
+                            <button onclick="removeFromCart(${item.id})" class="p-1.5 text-slate-400 hover:text-red-500 transition-colors shrink-0" title="Видалити"><i class="fa-solid fa-trash-can text-xs"></i></button>
                         </div>
                     `;
                 }).join('');
 
-                // Render RIGHT COLUMN: Text-Only Itemized Receipt ("ЧЕК")
                 receiptContainer.innerHTML = cart.map((item, index) => {
                     const title = currentLang === 'ua' ? item.titleUa : item.titleEng;
                     const totalItemPrice = item.price * item.quantity;
                     return `
                         <div class="flex justify-between items-start gap-2">
-                            <span class="truncate flex-1">
-                                ${index + 1}. ${title} <span class="text-purple-600 dark:text-yellow-400 font-bold">x${item.quantity}</span>
-                            </span>
+                            <span class="truncate flex-1">${index + 1}. ${title} <span class="text-purple-600 dark:text-yellow-400 font-bold">x${item.quantity}</span></span>
                             <span class="font-bold shrink-0">${totalItemPrice.toLocaleString()} ₴</span>
                         </div>
                     `;
                 }).join('');
             }
 
-            // Calculate Subtotal and Total
             const totalSum = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             document.getElementById('cart-subtotal').textContent = `${totalSum.toLocaleString()} ₴`;
             document.getElementById('cart-total').textContent = `${totalSum.toLocaleString()} ₴`;
         }
 
-        // Center Modal Dialog Controls
         const cartModalBackdrop = document.getElementById('cart-modal-backdrop');
         const cartModal = document.getElementById('cart-modal');
 
@@ -1053,9 +1020,7 @@
             cartModal.classList.remove('scale-100');
             cartModal.classList.add('scale-95');
             cartModalBackdrop.classList.add('opacity-0');
-            setTimeout(() => {
-                cartModalBackdrop.classList.add('hidden');
-            }, 300);
+            setTimeout(() => { cartModalBackdrop.classList.add('hidden'); }, 300);
         }
 
         document.getElementById('cart-btn').onclick = openCart;
@@ -1066,7 +1031,6 @@
             if (e.target === cartModalBackdrop) closeCart();
         };
 
-        // Checkout Button Click Event
         document.getElementById('checkout-btn').onclick = () => {
             if (cart.length === 0) return;
             cart = [];
@@ -1085,19 +1049,9 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'bg-slate-900/90 dark:bg-purple-900/95 text-white border border-yellow-400/40 px-4 py-3 rounded-xl shadow-xl text-xs flex items-center gap-3 backdrop-blur-md transition-all transform translate-y-2 opacity-0 pointer-events-auto';
-            toast.innerHTML = `
-                <div class="w-7 h-7 rounded-lg bg-yellow-400 text-purple-950 flex items-center justify-center shrink-0">
-                    <i class="fa-solid fa-check font-bold text-sm"></i>
-                </div>
-                <div>${message}</div>
-            `;
-            
+            toast.innerHTML = `<div class="w-7 h-7 rounded-lg bg-yellow-400 text-purple-950 flex items-center justify-center shrink-0"><i class="fa-solid fa-check font-bold text-sm"></i></div><div>${message}</div>`;
             container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-2');
                 setTimeout(() => toast.remove(), 300);
@@ -1107,29 +1061,19 @@
         function updateLanguage(lang) {
             currentLang = lang;
             document.getElementById('lang-label').textContent = lang.toUpperCase();
-
-            // Translate elements
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (i18n[lang][key]) {
-                    el.textContent = i18n[lang][key];
-                }
+                if (i18n[lang][key]) el.textContent = i18n[lang][key];
             });
-
-            // Translate placeholders
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
-                if (i18n[lang][key]) {
-                    el.placeholder = i18n[lang][key];
-                }
+                if (i18n[lang][key]) el.placeholder = i18n[lang][key];
             });
-
             renderCategories();
             renderProducts();
             updateCartUI();
         }
 
-        /* --- Hero Slider Controls --- */
         let heroIndex = 0;
         const heroSlider = document.getElementById('hero-slider');
         const heroSlidesCount = 3;
@@ -1162,32 +1106,16 @@
             heroInterval = setInterval(() => setHeroSlide(heroIndex + 1), 5000);
         });
 
-        /* --- Horizontal Carousels Scroll Controls --- */
         const discountContainer = document.getElementById('discount-container');
-        document.getElementById('discount-next').onclick = () => {
-            discountContainer.scrollBy({ left: 280, behavior: 'smooth' });
-        };
-        document.getElementById('discount-prev').onclick = () => {
-            discountContainer.scrollBy({ left: -280, behavior: 'smooth' });
-        };
+        document.getElementById('discount-next').onclick = () => discountContainer.scrollBy({ left: 280, behavior: 'smooth' });
+        document.getElementById('discount-prev').onclick = () => discountContainer.scrollBy({ left: -280, behavior: 'smooth' });
 
         const popularContainer = document.getElementById('popular-container');
-        document.getElementById('popular-next').onclick = () => {
-            popularContainer.scrollBy({ left: 280, behavior: 'smooth' });
-        };
-        document.getElementById('popular-prev').onclick = () => {
-            popularContainer.scrollBy({ left: -280, behavior: 'smooth' });
-        };
+        document.getElementById('popular-next').onclick = () => popularContainer.scrollBy({ left: 280, behavior: 'smooth' });
+        document.getElementById('popular-prev').onclick = () => popularContainer.scrollBy({ left: -280, behavior: 'smooth' });
 
-        /* --- Global Controls & Search Listeners --- */
-        document.getElementById('theme-btn').onclick = () => {
-            document.documentElement.classList.toggle('dark');
-        };
-
-        document.getElementById('lang-btn').onclick = () => {
-            const nextLang = currentLang === 'ua' ? 'eng' : 'ua';
-            updateLanguage(nextLang);
-        };
+        document.getElementById('theme-btn').onclick = () => document.documentElement.classList.toggle('dark');
+        document.getElementById('lang-btn').onclick = () => updateLanguage(currentLang === 'ua' ? 'eng' : 'ua');
 
         const searchInput = document.getElementById('search-input');
         const mobileSearchInput = document.getElementById('mobile-search-input');
@@ -1195,11 +1123,8 @@
 
         function handleSearch(e) {
             const val = e.target.value;
-            if (val) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
+            if (val) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
             renderProducts(val);
         }
 
